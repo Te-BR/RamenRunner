@@ -1,5 +1,7 @@
 //import './main.css'
 
+//IMPORT MAIN FILES
+
 import {characterMoveComponent, characterRecenterComponent} from './components.js'
 AFRAME.registerComponent('character-move', characterMoveComponent)
 AFRAME.registerComponent('character-recenter', characterRecenterComponent)
