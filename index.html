@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <script src="https://cdn.jsdelivr.net/gh/aframevr/aframe@1.3.0/dist/aframe-master.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-extras@7.4.0/dist/aframe-extras.min.js"></script>
+    <script src="https://raw.githack.com/fcor/arjs-gestures/master/dist/gestures.js"></script>
+    <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
+    <script type="module" src="app.js"></script>    
+    <link rel="stylesheet" href="main.css">
+</head>
+
+<body style="margin: 0; overflow: hidden;">
+    <!DOCTYPE html>
+
+    <div id="overlay">
+        <img id="recenterBtn" src="assets/reset.svg">
+        <h3>Arraste para mexer</h3>
+        <h1 id="pontosN">Pontos: 0</h1>
+      </div>
+
+      <a-scene
+      renderer="logarithmicDepthBuffer: true;"
+      embedded arjs
+      gesture-detector
+      >
+        <a-assets>
+          <a-asset-item id="sushiMan" src="assets/Sushi_Man.glb"></a-asset-item>
+          <a-asset-item id="coin-model" src="assets/sushi_peixe.glb"></a-asset-item>
+          <a-asset-item id="coin-model2" src="assets/sushi_vegano.glb"></a-asset-item>
+          <a-asset-item preload="auto" class="a-sound" id="musicSrc" src="assets/Japanese_Arcade_Music.mp3" response-type="arraybuffer"></a-asset-item>
+          <a-asset-item preload="auto" class="a-sound" id="chomp1Src" src="assets/Chomp_1.mp3" response-type="arraybuffer"></a-asset-item>
+          <a-asset-item preload="auto" class="a-sound" id="chomp2Src" src="assets/Chomp_2.mp3" response-type="arraybuffer"></a-asset-item>
+        </a-assets>
+
+        <a-entity 
+          camera
+          id="camera"
+          look-controls="touchEnabled: false"
+          position="0 4 4">
+            <a-sound id="music"  autoplay="true" src="#musicSrc"></a-sound>
+            <a-sound id="chomp1" src="#chomp1Src"></a-sound>
+            <a-sound id="chomp2" src="#chomp2Src"></a-sound>
+        </a-entity>
+
+        <a-entity
+          light="
+            type: directional;
+            intensity: 1.5;
+            castShadow: true;
+            shadowMapHeight:2048;
+            shadowMapWidth:2048;
+            shadowCameraTop: 20;
+            shadowCameraBottom: -20;
+            shadowCameraRight: 20;
+            shadowCameraLeft: -20;
+            target: #character;
+            shadowRadius: 10"
+          xrextras-attach="target: character; offset: 8 15 4"
+          position="1 4.3 2.5"
+          shadow>
+        </a-entity>
+      
+        <a-light type="ambient" intensity="0.75"></a-light>
+      
+        <a-entity
+          id="character"
+          character-move
+          character-recenter
+          gltf-model="#sushiMan"
+          gltf-morph="morphtarget: Surprised; value: 0"
+          animation-mixer="loop: repeat; crossFadeDuration: 0.4"
+          scale="0.5 0.5 0.5"
+          shadow
+        ></a-entity>
+      
+        <a-entity 
+          id="sushi"
+          position="0 0.5 -5" 
+          gltf-model="#coin-model"
+          material="color: #AD50FF"
+          rotation="0 0 0"
+          scale="0.5 0.5 0.5" 
+          proximity-trigger="radius: 1.5"
+          animation="property: rotation; to: 0 360; loop: true; dur: 1500; easing: linear;"
+        ></a-entity>
+      
+        <a-entity 
+          id="sushivegano"
+          position="3 0.5 -3" 
+          gltf-model="#coin-model2"
+          material="color: #AD50FF"
+          rotation="0 0 0"
+          scale="0.5 0.5 0.5" 
+          proximity-trigger="radius: 1.5"
+          animation="property: rotation; to: 0 360; loop: true; dur: 1500; easing: linear;"
+          >
+        </a-entity>
+      
+        <a-box
+          id="ground"
+          scale="1000 2 1000"
+          position="0 -1 0"
+          material="shader: shadow; transparent: true;"
+          shadow>
+        </a-box>
+    
+      </a-scene>
+</body>
+
+</html>
